@@ -13,8 +13,11 @@ public class Collectable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
+        {
+            UIText.DisplayText("Solo Man has picked up " + gameObject.name);
             Destroy(gameObject);
+        }
     }
     private void OnDestroy()
     {
