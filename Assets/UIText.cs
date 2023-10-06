@@ -12,6 +12,7 @@ public class UIText : MonoBehaviour
 
     private void Start()
     {
+        
         if (main == null)
         {
             main = this;

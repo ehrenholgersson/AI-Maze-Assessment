@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public class Hero : MonoBehaviour
 {
@@ -132,6 +131,14 @@ public class Hero : MonoBehaviour
             _animator.Play("dead");
             _navAgent.isStopped = true;
             UIText.DisplayText("Solo Man is Dead!");
+            Enemies.Clear();
+            GameControl.RestartLevel();
         }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
     }
 }
