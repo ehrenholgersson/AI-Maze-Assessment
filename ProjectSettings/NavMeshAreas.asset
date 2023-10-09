@@ -37,8 +37,8 @@ NavMeshProjectSettings:
     cost: 1
   - name: 
     cost: 1
-  - name: 
-    cost: 1
+  - name: Path
+    cost: 0.5
   - name: 
     cost: 1
   - name: Red

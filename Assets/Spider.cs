@@ -23,16 +23,16 @@ public class Spider : Ai
     IEnumerator Ai()
     {
         _navAgent.destination = new Vector3(_origin.x + Random.Range(-_patrolDistance, _patrolDistance), _origin.y, _origin.z + Random.Range(-_patrolDistance, _patrolDistance)); // create initial patrol waypoint
-        Debug.Log("set spider nav destination to " + _navAgent.destination);
+        //Debug.Log("set spider nav destination to " + _navAgent.destination);
         while (true)
         {
             _locationUncertainty += 0.05f;
             if (_locationUncertainty > 0.3f && ((new Vector2(transform.position.x, transform.position.z) - new Vector2(_navAgent.destination.x, _navAgent.destination.z)).magnitude < 1||(_navAgent.destination - _origin).magnitude > _patrolDistance)) // if we get to our patrol waypoint then pick a new one, this will then be ovveriden if agent spots the target 
             {
-                Debug.Log("spider picking new destination");
+                //Debug.Log("spider picking new destination");
                 _navAgent.destination = new Vector3(_origin.x + Random.Range(-_patrolDistance, _patrolDistance), _origin.y, _origin.z + Random.Range(-_patrolDistance, _patrolDistance));
             }
-            else Debug.Log("spider " + (new Vector2(transform.position.x, transform.position.z) - new Vector2(_navAgent.destination.x, _navAgent.destination.z)).magnitude + " from destination");
+            //else Debug.Log("spider " + (new Vector2(transform.position.x, transform.position.z) - new Vector2(_navAgent.destination.x, _navAgent.destination.z)).magnitude + " from destination");
 
             float distanceToTarget = (_target.transform.position - transform.position).magnitude;
             if (distanceToTarget < _sightRange)
