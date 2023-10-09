@@ -60,6 +60,7 @@ public class Hero : MonoBehaviour
                 {
                     _enemysighted = true;
                 }
+                else Debug.Log("cannot see " + g.gameObject.name);
             }
 
             if (_enemysighted && _fear < 100) 

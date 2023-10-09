@@ -3,29 +3,30 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Ogre : MonoBehaviour
+public class Ogre : Ai
 {
-    NavMeshAgent _navAgent;
+    //NavMeshAgent _navAgent;
     [SerializeField] GameObject _target;
     [SerializeField] float UncertaintyModifier;
     float _locationUncertainty = 1;
-    int _layerMask;
-    Animator _animator;
+    //int _layerMask;
+    //Animator _animator;
     Vector3 _lastposition;
     bool _attacking;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        // create bitmask for all but layer 3 (Characters) and layer 8 (Hero traversal Zones)
-        _layerMask = ~((1 << 3) + (1 << 8));
-        _navAgent = GetComponent<NavMeshAgent>();
-        _animator = GetComponentInChildren<Animator>();
-        StartCoroutine("OgreAi");
+        //// create bitmask for all but layer 3 (Characters) and layer 8 (Hero traversal Zones)
+        //_layerMask = ~((1 << 3) + (1 << 8));
+        //_navAgent = GetComponent<NavMeshAgent>();
+        //_animator = GetComponentInChildren<Animator>();
+        //StartCoroutine("OgreAi");
+        base.Start();
         Hero.Enemies.Add(gameObject);
     }
 
-    IEnumerator OgreAi()
+    IEnumerator Ai()
     {
         while (true)
         {
