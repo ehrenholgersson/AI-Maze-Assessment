@@ -6,6 +6,7 @@ public class CameraFollow : MonoBehaviour
 {
     Vector3 _offset = Vector3.zero;
     [SerializeField] GameObject _trackedObject;
+    public GameObject TrackedObject { get { return _trackedObject; } }
     // Start is called before the first frame update
     void Start()
     {

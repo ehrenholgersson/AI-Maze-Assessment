@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -41,9 +43,10 @@ public class Spider : Ai
                 {
                     _locationUncertainty = 0;
                     _navAgent.destination = _target.transform.position;
-                    if (distanceToTarget < _attackRange && Random.Range(0f,1f)>0.5f)
+                    if (distanceToTarget < _attackRange && Random.Range(0f,1f)>0.75f)
                     {
                         Attack();
+                        yield return new WaitForSeconds(4); // pause after attack so player can get away before being attacked again
                     }
                 }
             }
@@ -51,9 +54,22 @@ public class Spider : Ai
         }
     }
 
-    void Attack()
+    async void Attack()
     {
-        Debug.Log("speder has attacked");
+        float timer  = Time.time;
+        Vector3 startpos = transform.position;
+        _navAgent.enabled = false;
+        Debug.Log("spider has attacked");
+        float t = 0; 
+        while (t <=1)
+        {
+            t = (Time.time - timer) / 0.5f;
+            transform.position = Vector3.Lerp(startpos, _target.transform.position, t);
+            await Task.Delay(16);
+        }
+        _target.GetComponent<Hero>().ApplyDamage(15);
+        _navAgent.enabled = true;
+        _navAgent.destination = transform.position;
     }
 
     // Update is called once per frame
