@@ -24,15 +24,24 @@ public class Spider : Ai
     }
     IEnumerator Ai()
     {
+        float patrolTime = Time.time;
         _navAgent.destination = new Vector3(_origin.x + Random.Range(-_patrolDistance, _patrolDistance), _origin.y, _origin.z + Random.Range(-_patrolDistance, _patrolDistance)); // create initial patrol waypoint
         //Debug.Log("set spider nav destination to " + _navAgent.destination);
         while (true)
         {
             _locationUncertainty += 0.05f;
-            if (_locationUncertainty > 0.3f && ((new Vector2(transform.position.x, transform.position.z) - new Vector2(_navAgent.destination.x, _navAgent.destination.z)).magnitude < 1||(_navAgent.destination - _origin).magnitude > _patrolDistance)) // if we get to our patrol waypoint then pick a new one, this will then be ovveriden if agent spots the target 
+            if (_locationUncertainty > 0.3f)
             {
-                //Debug.Log("spider picking new destination");
-                _navAgent.destination = new Vector3(_origin.x + Random.Range(-_patrolDistance, _patrolDistance), _origin.y, _origin.z + Random.Range(-_patrolDistance, _patrolDistance));
+                if ((new Vector2(transform.position.x, transform.position.z) - new Vector2(_navAgent.destination.x, _navAgent.destination.z)).magnitude < 1 || (_navAgent.destination - _origin).magnitude > _patrolDistance || Time.time - patrolTime > 20) // if we get to our patrol waypoint then pick a new one, this will then be ovveriden if agent spots the target 
+                {
+                    //Debug.Log("spider picking new destination");
+                    patrolTime = Time.time;
+                    _navAgent.destination = new Vector3(_origin.x + Random.Range(-_patrolDistance, _patrolDistance), _origin.y, _origin.z + Random.Range(-_patrolDistance, _patrolDistance));
+                }
+            }
+            else
+            {
+                _navAgent.destination = _target.transform.position;
             }
             //else Debug.Log("spider " + (new Vector2(transform.position.x, transform.position.z) - new Vector2(_navAgent.destination.x, _navAgent.destination.z)).magnitude + " from destination");
 
@@ -42,7 +51,6 @@ public class Spider : Ai
                 if (CheckLOS(_target))
                 {
                     _locationUncertainty = 0;
-                    _navAgent.destination = _target.transform.position;
                     if (distanceToTarget < _attackRange && Random.Range(0f,1f)>0.75f)
                     {
                         Attack();
